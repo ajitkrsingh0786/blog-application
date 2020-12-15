@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Update</title>
+</head>
+<body>
+<h2>Read Post</h2>
+
+<form action="#" th:action="@{/updatePost}" th:object="${post}" method="POST">
+    <input type="hidden" th:field="*{id}">
+    <input type="hidden" th:field="*{createdAt}">
+    <input type="hidden" th:field="*{updatedAt}">
+    <input type="hidden" th:field="*{publishedAt}">
+    <input type="text" th:field="*{title}"
+           placeholder="Title">
+    <input type="text" th:field="*{content}"
+           placeholder="Content">
+    <input type="submit" value="create post">
+</form>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index.html</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<body>
+<div class="topnav">
+    <a class="active" href="">Home</a>
+    <a href="">Write a Story</a>
+    <a href="">About</a>
+</div>
+
+<div>
+    All Blogs
+    <form action="#" th:action="@{/writePost}">
+        <input type="submit">
+    </form>
+
+    <table border="1" class = "table table-striped table-responsive-md">
+        <thead>
+        <th>
+
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${postList}">
+
+            <td th:text="${post.id}"></td>
+            <td th:text="${post.title}"></td>
+            <td th:text="${post.content}"></td>
+            <td th:text="${post.createdAt}"></td>
+            <td> <a th:href="@{/showFormForUpdate/{id}(id=${post.id})}" >Update</a>
+            <td> <a th:href="@{/deletePost/{id}(id=${post.id})}" >Delete</a>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</div>
+
+</div>
+</body>
+</html>
