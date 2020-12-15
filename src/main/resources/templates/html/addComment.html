@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Comment</title>
+</head>
+<body>
+<form action="#" th:action="@{/addComment}" th:object="${comment1}" method="POST">
+    <input type="hidden" th:field="*{post}">
+    <input type="text" th:field="*{name}" placeholder="name">
+    <input type="email" th:field="*{email}" placeholder="email">
+    <input type="text" th:field="*{comment}" placeholder="Write comment">
+    <input type="submit" value="Add comment">
+</form>
+</body>
+</html>
