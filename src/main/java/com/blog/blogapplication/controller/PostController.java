@@ -59,4 +59,11 @@ public class PostController {
         postService.deletePostById(id);
         return "redirect:/";
     }
+
+    @RequestMapping("/viewPost/{id}")
+    public String viewPost(@PathVariable(value = "id") int id, Model model) {
+        Post post = postService.getPostById(id);
+        model.addAttribute("post",post);
+        return "html/viewPost";
+    }
 }

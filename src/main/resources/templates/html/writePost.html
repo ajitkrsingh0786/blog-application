@@ -7,14 +7,17 @@
     <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 <body>
-<h2>Read Post</h2>
-
+  <div class="write-blog-container">
+      <h1>New/Edit Post</h1><br><br>
     <form action="#" th:action="@{/savePost}" th:object="${post}" method="POST">
         <input type="text" th:field="*{title}"
-               placeholder="Title">
-        <input type="text" th:field="*{content}"
-               placeholder="Content">
-        <input type="submit" value="create post">
+               placeholder="Title" id="title">
+        <input type="text" placeholder="tags" id="tags">
+        <input type="text" th:field="*{author}" placeholder="Author Name" id="author-name">
+        <textarea type="text" th:field="*{content}"
+                  placeholder="Content" id="content" rows="15"></textarea>
+        <input type="submit" value="create post" id="submit-button">
 </form>
+  </div>
 </body>
 </html>

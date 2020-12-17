@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 body {
-  background: #453c52;
+  /*background: #453c52;*/
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -12,16 +12,21 @@ body {
 .topnav {
   overflow: hidden;
   background-color: #333;
-  length:50px
+
 }
 
-.topnav a {
-  float: left;
+.topnav {
   color: #f2f2f2;
-  text-align: center;
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
+}
+.r1 .a1 {
+    float:left;
+}
+
+.r1 .a2 {
+    float:right;
 }
 
 .topnav a:hover {
@@ -32,4 +37,69 @@ body {
 .topnav a.active {
   background-color: #4CAF50;
   color: white;
+}
+
+.posts-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap:10px;
+
+}
+
+.posts {
+  position: relative;
+  margin:5% 10%;
+  padding:10px;
+  width: 400px;
+  height: 200px;
+  border: 1px solid;
+  border-radius: 25px;
+  overflow:hidden;
+}
+
+.posts a {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+
+.view-container {
+  text-align: center;
+}
+.write-blog-container {
+align:center;
+padding:5% 20%;
+}
+
+.write-blog-container
+input, textarea {
+      display: block;
+       width: 100%;
+          }
+#title{
+font-size: 200%;
+margin-bottom:2% ;
+}
+
+#tags{
+font-size: 150%;
+margin:2% 0%;
+}
+
+#content {
+ height:40%;
+ font-size: 120%;
+}
+#submit-button {
+  width:20%;
+  font-size: 150%;
+  margin:2% 40%;
+
+}
+#author-name{
+font-size: 130%;
+margin:2% 0%;
 }

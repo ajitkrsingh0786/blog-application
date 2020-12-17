@@ -8,17 +8,54 @@
 </head>
 <body>
 <div class="topnav">
-    <a class="active" href="">Home</a>
-    <a href="">Write a Story</a>
-    <a href="">About</a>
+    <div class="r1">
+    <div class="a1">
+        <h1 class="a1">My Blog Application</h1><br>
+        <a th:href="@{/writePost}" >Write New Post</a>
+        <a th:href="@{/createTagForm}" >Create Tag</a>
+    </div>
+    <div class="a2">
+    <form action="">
+        <input type="search" >
+        <input type="submit">
+    </form><br>
+        <select>
+            <option disabled="" selected="">Filter</option>
+            <option value="author">By author</option>
+            <option value="published">By published date</option>
+            <option value="tags">By tags</option>
+        </select>
+        <select>
+            <option disabled="" selected="">Sort</option>
+            <option value="published">By published Date</option>
+        </select>
+    </div>
+    </div>
+
 </div>
 
-<div>
-    All Blogs
-    <form action="#" th:action="@{/writePost}">
-        <input type="submit">
-    </form>
 
+
+
+
+<div class="posts-container">
+<div th:each="post : ${postList}" class="posts">
+    <h2 th:text="${post.title}"></h2>
+    <p >
+        <span th:text="${post.createdAt}" ></span>,
+        <span th:text="${post.createdAt}"></span>
+    </p><br>
+    <p th:text="${post.content}"></p>
+    <td> <a th:href="@{/viewPost/{id}(id=${post.id})}" ></a>
+</div>
+</div>
+
+
+
+
+
+
+<div>
     <table border="1"  >
         <thead>
         <th>
@@ -27,8 +64,7 @@
         </thead>
         <tbody>
         <tr th:each="post : ${postList}">
-
-            <td th:text="${post.id}"></td>
+            <td th:text="${post.id}">ALl is Well</td>
             <td th:text="${post.title}"></td>
             <td th:text="${post.content}"></td>
             <td th:text="${post.createdAt}"></td>

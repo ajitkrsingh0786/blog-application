@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Create Tag</title>
 </head>
 <body>
-$END$
+    <h1>Create Tag</h1>
+    <form action="#" th:action="@{/createTag}" th:object="${tag}" method="POST">
+        <input type="text" th:field="*{name}"
+               placeholder="Tag Name">
+        <input type="submit" value="create post" id="submit-button">
+    </form>
 </body>
 </html>

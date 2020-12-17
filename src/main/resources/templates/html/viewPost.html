@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>View Post</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 <body>
-$END$
+<h1>View</h1>
+<container class="view-container"  th:action="@{/updatePost}" th:object="${post}">
+    <h2 th:text="${post.title}"></h2>
+    <p >
+        <span th:text="${post.createdAt}" ></span>,
+        <span th:text="${post.createdAt}"></span>
+    </p><br><br>
+    <p th:text="${post.content}"></p>
+    <a th:href="@{/showFormForUpdate/{id}(id=${post.id})}" >Update</a>
+    <a th:href="@{/deletePost/{id}(id=${post.id})}" >Delete</a>
+    <a th:href="@{/addCommentForm/{id}(id=${post.id})}" >Add Comment</a>
+    <a th:href="@{/viewComments/{id}(id=${post.id})}" >View All Comments</a>
+</container>
 </body>
 </html>

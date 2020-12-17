@@ -2,16 +2,17 @@ package com.blog.blogapplication.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "posts")
 public class Post {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     int id;
-
     String title;
     String excerpt;
+    @Lob
     String content;
     String author;
     @Column(name="published_at")
@@ -22,6 +23,12 @@ public class Post {
     Date createdAt;
     @Column(name="updated_at")
     Date updatedAt;
+
+    @OneToMany(mappedBy="post", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    private List<Comment> comments;
+
+    @ManyToMany
+    List<Tag> tags;
 
     public int getId() {
         return id;
@@ -93,6 +100,15 @@ public class Post {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     @Override
