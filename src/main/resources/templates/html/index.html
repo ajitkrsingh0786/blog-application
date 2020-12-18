@@ -15,20 +15,32 @@
         <a th:href="@{/createTagForm}" >Create Tag</a>
     </div>
     <div class="a2">
-    <form action="">
-        <input type="search" >
+    <form action="#" th:action="@{searchPosts}">
+        <input type="search" name="keyword">
         <input type="submit">
     </form><br>
-        <select>
+
+
+        <form action="#" th:action="@{/filterPost}">
+        <select name="filter">
             <option disabled="" selected="">Filter</option>
-            <option value="author">By author</option>
+            <option value="author">By author
+            </option>
             <option value="published">By published date</option>
             <option value="tags">By tags</option>
         </select>
+            <input type="submit">
+        </form>
+
+
+
+        <form action="#" th:action="@{/sortByDate}">
         <select>
-            <option disabled="" selected="">Sort</option>
-            <option value="published">By published Date</option>
+            <option disabled="" selected>Sort</option>
+            <option value="sortByDate">By published Date</option>
         </select>
+            <input type="submit">
+        </form>
     </div>
     </div>
 
@@ -46,7 +58,7 @@
         <span th:text="${post.createdAt}"></span>
     </p><br>
     <p th:text="${post.content}"></p>
-    <td> <a th:href="@{/viewPost/{id}(id=${post.id})}" ></a>
+    <a th:href="@{/viewPost/{id}(id=${post.id})}" ></a>
 </div>
 </div>
 

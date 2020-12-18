@@ -9,4 +9,8 @@ public interface PostService {
     List<Post> getAllPost();
     Post getPostById(int id);
     void deletePostById(int id);
+    List<Post> searchPosts(String keyword);
+    List<Post> getAllPostOrderByCreatedAt();
+    List<String> getDistinctAuthor();
+    List<Post> getByAuthor(String author);
 }

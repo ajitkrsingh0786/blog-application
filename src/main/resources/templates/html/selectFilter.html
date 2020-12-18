@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>selectFilter</title>
+</head>
+<body>
+
+  <form action="#" th:action="@{/getFilteredPost}">
+      <select name="selected">
+          <option th:each="tag : ${tags}"
+                  th:value="${tag.id}"
+                  th:utext="${tag.name}" />
+      </select>
+      <input type="submit">
+  </form>
+      <form action="#" th:action="@{/getFilteredPostByAuthor}">
+          <select name="selected">
+              <option th:each="name : ${authorsName}"
+                      th:value="${name}"
+                      th:utext="${name}" />
+          </select>
+          <input type="submit">
+      </form>
+
+
+</body>
+</html>

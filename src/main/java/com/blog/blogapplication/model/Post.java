@@ -1,5 +1,8 @@
 package com.blog.blogapplication.model;
 
+import org.attoparser.dom.Text;
+import org.springframework.web.servlet.tags.form.TextareaTag;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +15,8 @@ public class Post {
     int id;
     String title;
     String excerpt;
-    @Lob
+
+    @Column(columnDefinition="TEXT")
     String content;
     String author;
     @Column(name="published_at")
@@ -109,6 +113,14 @@ public class Post {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     @Override

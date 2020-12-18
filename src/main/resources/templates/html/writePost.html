@@ -12,7 +12,12 @@
     <form action="#" th:action="@{/savePost}" th:object="${post}" method="POST">
         <input type="text" th:field="*{title}"
                placeholder="Title" id="title">
-        <input type="text" placeholder="tags" id="tags">
+        <input type="text"  name="selectedTag" placeholder="tags" id="tags">
+        <select>
+            <option value="" disabled> -- </option>
+            <option th:each="tag : ${tags}"
+                    th:utext="${tag.name}" disabled/>
+          </select>
         <input type="text" th:field="*{author}" placeholder="Author Name" id="author-name">
         <textarea type="text" th:field="*{content}"
                   placeholder="Content" id="content" rows="15"></textarea>
