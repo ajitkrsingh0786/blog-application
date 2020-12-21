@@ -4,25 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
 </head>
 <body>
-  <div class="write-blog-container">
-      <h1>New/Edit Post</h1><br><br>
+<div class="write-blog-container">
+    <h1>New/Edit Post</h1><br><br>
     <form action="#" th:action="@{/savePost}" th:object="${post}" method="POST">
+        <input type="hidden" th:field="*{id}">
+      <!--  <input type="hidden" th:field="*{createdAt}"> -->
         <input type="text" th:field="*{title}"
                placeholder="Title" id="title">
-        <input type="text"  name="selectedTag" placeholder="tags" id="tags">
+        <input type="text" name="selectedTag" placeholder="tags" id="tags">
         <select>
-            <option value="" disabled> -- </option>
+            <option value="" disabled> --</option>
             <option th:each="tag : ${tags}"
                     th:utext="${tag.name}" disabled/>
-          </select>
+        </select>
         <input type="text" th:field="*{author}" placeholder="Author Name" id="author-name">
         <textarea type="text" th:field="*{content}"
                   placeholder="Content" id="content" rows="15"></textarea>
-        <input type="submit" value="create post" id="submit-button">
-</form>
-  </div>
+        <input type="submit" value="Save post" id="submit-button">
+    </form>
+</div>
 </body>
 </html>

@@ -6,23 +6,40 @@
 </head>
 <body>
 
-  <form action="#" th:action="@{/getFilteredPost}">
-      <select name="selected">
-          <option th:each="tag : ${tags}"
-                  th:value="${tag.id}"
-                  th:utext="${tag.name}" />
-      </select>
-      <input type="submit">
-  </form>
-      <form action="#" th:action="@{/getFilteredPostByAuthor}">
-          <select name="selected">
-              <option th:each="name : ${authorsName}"
-                      th:value="${name}"
-                      th:utext="${name}" />
-          </select>
-          <input type="submit">
-      </form>
 
+<div th:if="${not #lists.isEmpty(tags)}">
+    <form action="#" th:action="@{/getFilteredPost/1}">
+        <select name="selected">
+            <option th:each="tag : ${tags}"
+                    th:value="${tag.id}"
+                    th:utext="${tag.name}"/>
+        </select>
+        <input type="submit">
+    </form>
+</div>
+
+<div th:if="${not #lists.isEmpty(authorsName)}">
+    <form action="#" th:action="@{/getFilteredPostByAuthor/1}">
+        <select name="selected">
+            <option th:each="name : ${authorsName}"
+                    th:value="${name}"
+                    th:utext="${name}"/>
+        </select>
+        <input type="submit">
+    </form>
+</div>
+
+<div th:if="${ #lists.isEmpty(tags)}">
+    <div th:if="${#lists.isEmpty(authorsName)}">
+        <form action="#" th:action="@{/getFilteredPostByDate/1}">
+            <select name="selected">
+                <option th:value="lastDay">Last One Day</option>
+                <option value="lastWeek">last One Week</option>
+            </select>
+            <input type="submit">
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

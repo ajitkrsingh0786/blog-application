@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Index.html</title>
+    <title>Filter By Date</title>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <div th:replace="html/header :: header"></div>
 </head>
 <body>
-
 <div class="posts-container">
     <div th:each="post : ${postList}" class="posts">
         <h2 th:text="${post.title}"></h2>
@@ -21,7 +19,6 @@
     </div>
 </div>
 
-
 <div th:if="${totalPages > 1}">
     <div class="row">
         <div>
@@ -29,17 +26,19 @@
         </div>
         <div>
             <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-              <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
+              <a th:if="${currentPage != i}" th:href="@{'/getFilteredPostByDate/' + ${i}+'?selected='+${selected}}">[[${i}]]</a>
                 <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;&nbsp;
             </span>
         </div>
         <div>
-            <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}}">Next</a>
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{'/getFilteredPostByDate/' + ${currentPage + 1} + '?selected='+${selected}}">Next</a>
             <span th:unless="${currentPage < totalPages}">Next</span>
         </div>
 
         <div>
-            <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}}">Last</a>
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{'/getFilteredPostByDate/' + ${totalPages} + '?selected='+${selected}}">Last</a>
             <span th:unless="${currentPage < totalPages}">Last</span>
         </div>
     </div>

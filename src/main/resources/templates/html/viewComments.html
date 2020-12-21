@@ -5,7 +5,7 @@
     <title>View Comments</title>
 </head>
 <body>
-<table border="1"  >
+<table border="1">
     <thead>
     <th>
         A
@@ -18,8 +18,9 @@
         <td th:text="${comment.name}"></td>
         <td th:text="${comment.email}"></td>
         <td th:text="${comment.comment}"></td>
-        <td> <a th:href="@{/deleteComment/{commentId}(commentId=${comment.id})}" >Delete Comment</a>
-        <td> <a th:href="@{/updateComment/{commentId}(commentId=${comment.id})}" >Update Comment</a>
+        <td><a th:href="@{/deleteComment/{id}(id=${comment.id})}">Delete Comment</a>
+        <td><a th:href="@{/updateComment/{commentId}/{postId}(commentId=${comment.id},postId=${postId})}">Update
+            Comment</a>
     </tr>
     </tbody>
 </table>

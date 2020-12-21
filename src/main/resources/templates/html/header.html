@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<div th:fragment="header">
+    <div class="topnav">
+         <div class="r1">
+            <div class="a1">
+                <h1 class="a1">My Blog Application</h1><br>
+                <a th:href="@{/writePost}">Write New Post</a>
+                <a th:href="@{/createTagForm}">Create Tag</a>
+            </div>
+            <div class="a2">
+                <form action="#" th:action="@{/searchPosts/1}">
+                    <input type="search" name="keyword">
+                    <input type="submit">
+                </form>
+                <br>
+
+                <form action="#" th:action="@{/filterPost}">
+                    <select name="filter">
+                        <option disabled="" selected="">Filter</option>
+                        <option value="author">By author
+                        </option>
+                        <option value="byDate">By published date</option>
+                        <option value="tags">By tags</option>
+                    </select>
+                    <input type="submit">
+                </form>
+
+                <form action="#" th:action="@{/sortByDate/1}">
+                    <select name="sortBy">
+                        <option disabled="" selected>Sort</option>
+                        <option value="asc">By published date asc</option>
+                        <option value="desc">By published date desc</option>
+                    </select>
+                    <input type="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

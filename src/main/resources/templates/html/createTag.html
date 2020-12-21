@@ -10,6 +10,24 @@
         <input type="text" th:field="*{name}"
                placeholder="Tag Name">
         <input type="submit" value="create post" id="submit-button">
-    </form>
+    </form><br><br>
+
+    <table>
+        <thead>
+        <th>
+
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="eachTag : ${tags}">
+            <td th:text="${eachTag.name}"></td>
+            <td> <a th:href="@{/deleteTag/{id}(id=${eachTag.id})}" >Delete</a>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+
 </body>
 </html>

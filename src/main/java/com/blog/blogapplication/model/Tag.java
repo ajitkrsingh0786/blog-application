@@ -9,14 +9,14 @@ import java.util.List;
 public class Tag {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
     String name;
     @Column(name = "created_at")
     Date createdAt;
     @Column(name = "updated_at")
     Date updatedAt;
-    @ManyToMany(mappedBy="tags", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    @ManyToMany(mappedBy = "tags", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     List<Post> posts;
 
     public int getId() {

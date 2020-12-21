@@ -5,7 +5,8 @@
     <title>Add Comment</title>
 </head>
 <body>
-<form action="#" th:action="@{/addComment}" th:object="${comment1}" method="POST">
+<form action="#" th:action="@{/addComment/{postId}(postId=${postId})}" th:object="${commentObj}" method="POST">
+    <input type="hidden" th:field="*{id}">
     <input type="hidden" th:field="*{post}">
     <input type="text" th:field="*{name}" placeholder="name">
     <input type="email" th:field="*{email}" placeholder="email">

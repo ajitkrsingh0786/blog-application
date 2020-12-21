@@ -8,32 +8,19 @@ import java.util.Date;
 public class Comment {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
-
     String name;
     String email;
     String comment;
-
-    @Column(name="created_at")
+    @Column(name = "created_at")
     Date createdAt;
-
-    @Column(name="updated_at")
+    @Column(name = "updated_at")
     Date updatedAt;
-
     @ManyToOne
     Post post;
 
     public Comment() {
-    }
-
-    public Comment(String name, String email, String comment, Date createdAt, Date updatedAt, Post post) {
-        this.name = name;
-        this.email = email;
-        this.comment = comment;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.post = post;
     }
 
     public int getId() {

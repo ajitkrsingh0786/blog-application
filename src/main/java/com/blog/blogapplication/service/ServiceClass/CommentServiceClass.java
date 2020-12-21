@@ -1,8 +1,9 @@
-package com.blog.blogapplication.service;
+package com.blog.blogapplication.service.ServiceClass;
 
 import com.blog.blogapplication.dao.CommentRepository;
 import com.blog.blogapplication.model.Comment;
 import com.blog.blogapplication.model.Post;
+import com.blog.blogapplication.service.Interface.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CommentServiceImplement implements CommentService {
+public class CommentServiceClass implements CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
@@ -32,13 +33,15 @@ public class CommentServiceImplement implements CommentService {
 
     @Override
     public Comment getCommentById(int id) {
-        Comment comment = null;
+        Comment comment;
+
         Optional<Comment> optional = commentRepository.findById(id);
         if(optional.isPresent()){
             comment = optional.get();
         }else {
             throw new RuntimeException("Comment not found");
         }
+
         return comment ;
     }
 }

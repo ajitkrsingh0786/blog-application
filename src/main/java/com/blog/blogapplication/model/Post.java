@@ -1,8 +1,5 @@
 package com.blog.blogapplication.model;
 
-import org.attoparser.dom.Text;
-import org.springframework.web.servlet.tags.form.TextareaTag;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +12,6 @@ public class Post {
     int id;
     String title;
     String excerpt;
-
     @Column(columnDefinition="TEXT")
     String content;
     String author;
@@ -27,11 +23,9 @@ public class Post {
     Date createdAt;
     @Column(name="updated_at")
     Date updatedAt;
-
     @OneToMany(mappedBy="post", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private List<Comment> comments;
-
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
     List<Tag> tags;
 
     public int getId() {
