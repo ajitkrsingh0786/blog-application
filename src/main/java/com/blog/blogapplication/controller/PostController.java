@@ -1,10 +1,14 @@
 package com.blog.blogapplication.controller;
 
+import com.blog.blogapplication.dao.UserRepository;
 import com.blog.blogapplication.model.Post;
-import com.blog.blogapplication.service.Interface.PostService;
-import com.blog.blogapplication.service.Interface.TagService;
+import com.blog.blogapplication.model.Tag;
+import com.blog.blogapplication.service.declaration.CommentService;
+import com.blog.blogapplication.service.declaration.PostService;
+import com.blog.blogapplication.service.declaration.TagService;
+import com.blog.blogapplication.service.implementation.Resources;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +19,15 @@ import java.util.List;
 
 @Controller
 public class PostController {
+
     @Autowired
-    private PostService postService;
+    PostService postService;
     @Autowired
-    private TagService tagService;
+    TagService tagService;
+    @Autowired
+    CommentService commentService;
+    @Autowired
+    UserRepository userRepository;
 
     @RequestMapping("/")
     public String allPosts(Model model) {
@@ -27,14 +36,12 @@ public class PostController {
 
     @RequestMapping("/page/{pageNo}")
     public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model) {
-        int pageSize = 2;
-        Page<Post> page = postService.findPaginated(pageNo, pageSize);
-        List<Post> listPosts = page.getContent();
-
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalPosts", page.getTotalElements());
-        model.addAttribute("postList", listPosts);
+        String pathUrl = "page";
+        List<Post> posts = postService.getAllPost();
+        PagedListHolder page = Resources.getPageableList(posts, pageNo, Resources.PAGE_SIZE);
+        Resources.getPageableModelListHolder(pageNo, page, model, "", pathUrl, posts.size());
+        model.addAttribute("tags", tagService.getAllTag());
+        model.addAttribute("authorsName", postService.getDistinctAuthor());
         return "html/index";
     }
 
@@ -47,11 +54,10 @@ public class PostController {
     }
 
     @PostMapping("/savePost")
-    public String savePost(@ModelAttribute("post") Post post, @Param("selectedTag") String selectedTag) {
+    public String savePost(@ModelAttribute("post") Post post, @Param("selectedTag") String selectedTag, @Param(
+            "selectedTag") String authorName) {
         post.setTags(tagService.getSelectedTags(selectedTag));
-        System.out.println("Hello");
-        postService.savePost(post);
-
+        postService.savePost(post, authorName);
         return "redirect:/";
     }
 
@@ -59,10 +65,15 @@ public class PostController {
     public String showFormForUpdate(@PathVariable(value = "id") int id, Model model) {
         Post post = postService.getPostById(id);
         Date createdAt = new Date(post.getCreatedAt().getTime());
+        List<Tag> tags = post.getTags();
+        String tagsString = "";
+        for (Tag tag : tags) {
+            tagsString += tag.getName() + ",";
+        }
         post.setCreatedAt(createdAt);
-        System.out.println("Ajit Kumar Singh");
-        model.addAttribute("tags", tagService.getAllTag());
+        model.addAttribute("tagsString", tagsString);
         model.addAttribute("post", post);
+        model.addAttribute("tags", tagService.getAllTag());
         return "html/writePost";
     }
 
@@ -76,39 +87,31 @@ public class PostController {
     public String viewPost(@PathVariable(value = "id") int id, Model model) {
         Post post = postService.getPostById(id);
         model.addAttribute("post", post);
+        model.addAttribute("comments", commentService.getCommentsByPost(post));
         return "html/viewPost";
     }
 
     @RequestMapping("/searchPosts/{pageNo}")
     public String searchPosts(@PathVariable(value = "pageNo") int pageNo, @Param("keyword") String keyword,
                               Model model) {
-        int pageSize = 2;
-        Page<Post> page = postService.searchPosts(keyword, pageNo, pageSize);
-        List<Post> listPosts = page.getContent();
-
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalPosts", page.getTotalElements());
-        model.addAttribute("postList", listPosts);
-        model.addAttribute("keyword", keyword);
-        //return "html/sortPost";
-        //model.addAttribute("postList", postService.searchPosts(keyword));
-        return "html/searchResult";
+        String pathUrl = "searchPosts";
+        List<Post> posts = postService.searchPosts(keyword);
+        PagedListHolder page = Resources.getPageableList(posts, pageNo, Resources.PAGE_SIZE);
+        Resources.getPageableModelListHolder(pageNo, page, model, keyword, pathUrl, posts.size());
+        model.addAttribute("tags", tagService.getAllTag());
+        model.addAttribute("authorsName", postService.getDistinctAuthor());
+        return "html/index";
     }
 
     @RequestMapping("/sortByDate/{pageNo}")
-    public String sortByDate(@PathVariable(value = "pageNo") int pageNo, @Param("sortBy") String sortBy, Model model) {
-        int pageSize = 2;
-        Page<Post> page = postService.getAllPostOrderByCreatedAt(sortBy, pageNo, pageSize);
-        List<Post> listPosts = page.getContent();
-
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalPosts", page.getTotalElements());
-        model.addAttribute("postList", listPosts);
-        model.addAttribute("sortBy", sortBy);
-        return "html/sortPost";
-        //  model.addAttribute("postList", postService.getAllPostOrderByCreatedAt());
-        //return "html/index";
+    public String sortByDate(@PathVariable(value = "pageNo") int pageNo, @RequestParam("keyword") String keyword,
+                             Model model) {
+        String pathUrl = "sortByDate";
+        List<Post> posts = postService.getAllPostOrderByPublishedAt(keyword);
+        PagedListHolder page = Resources.getPageableList(posts, pageNo, Resources.PAGE_SIZE);
+        Resources.getPageableModelListHolder(pageNo, page, model, keyword, pathUrl, posts.size());
+        model.addAttribute("tags", tagService.getAllTag());
+        model.addAttribute("authorsName", postService.getDistinctAuthor());
+        return "html/index";
     }
 }

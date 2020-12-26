@@ -1,23 +1,30 @@
-package com.blog.blogapplication.service.ServiceClass;
+package com.blog.blogapplication.service.implementation;
 
 import com.blog.blogapplication.dao.CommentRepository;
 import com.blog.blogapplication.model.Comment;
 import com.blog.blogapplication.model.Post;
-import com.blog.blogapplication.service.Interface.CommentService;
+import com.blog.blogapplication.service.declaration.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CommentServiceClass implements CommentService {
+public class CommentServiceImp implements CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
 
     @Override
     public void saveComment(Comment comment) {
+        Date date = Calendar.getInstance().getTime();
+        comment.setUpdatedAt(date);
+        if (comment.getComment() == null) {
+            comment.setCreatedAt(date);
+        }
         commentRepository.save(comment);
     }
 
@@ -28,20 +35,12 @@ public class CommentServiceClass implements CommentService {
 
     @Override
     public void deleteCommentById(int id) {
-          commentRepository.deleteById(id);
+        commentRepository.deleteById(id);
     }
 
     @Override
     public Comment getCommentById(int id) {
-        Comment comment;
-
         Optional<Comment> optional = commentRepository.findById(id);
-        if(optional.isPresent()){
-            comment = optional.get();
-        }else {
-            throw new RuntimeException("Comment not found");
-        }
-
-        return comment ;
+        return optional.orElse(null);
     }
 }

@@ -11,16 +11,18 @@
     <h1>New/Edit Post</h1><br><br>
     <form action="#" th:action="@{/savePost}" th:object="${post}" method="POST">
         <input type="hidden" th:field="*{id}">
-      <!--  <input type="hidden" th:field="*{createdAt}"> -->
+        <!--  <input type="hidden" th:field="*{createdAt}"> -->
         <input type="text" th:field="*{title}"
                placeholder="Title" id="title">
-        <input type="text" name="selectedTag" placeholder="tags" id="tags">
+
+        <input type="text" name="selectedTag" placeholder="tags" id="tags" th:value="${tagsString}">
         <select>
             <option value="" disabled> --</option>
             <option th:each="tag : ${tags}"
                     th:utext="${tag.name}" disabled/>
         </select>
-        <input type="text" th:field="*{author}" placeholder="Author Name" id="author-name">
+        <input type="hidden" id="author-name" name="authorName"
+               th:value="${#authentication.getPrincipal().getUsername()}">
         <textarea type="text" th:field="*{content}"
                   placeholder="Content" id="content" rows="15"></textarea>
         <input type="submit" value="Save post" id="submit-button">

@@ -14,18 +14,19 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface PostRepository extends JpaRepository<Post,Integer> {
+public interface PostRepository extends JpaRepository<Post, Integer> {
 
-    @Query(value = "SELECT post FROM Post post JOIN post.tags t WHERE  post.title LIKE %?1% " +
-            "OR post.content LIKE %?1% OR post.author LIKE %?1% OR t.name LIKE %?1%")
-    Page<Post> findAll(String keyword, Pageable pageable);
+    @Query(value = "SELECT DISTINCT post FROM Post post JOIN post.tags t WHERE  post.title LIKE %?1% " + "OR post.content " +
+            "LIKE" + " %?1% OR post.author LIKE %?1% OR t.name LIKE %?1%")
+    List<Post> findAll(String keyword);
 
-    List<Post> findByTags(Tag tag);
-    @Query("SELECT post FROM Post post ORDER BY createdAt DESC")
-    Page<Post> findAllOrderByCreatedAtDesc(Pageable pageable);
+    Page<Post> findByTags(Tag tag, Pageable pageable);
 
-    @Query("SELECT post FROM Post post ORDER BY createdAt ASC")
-    Page<Post> findAllOrderByCreatedAtAsc(Pageable pageable);
+    @Query("SELECT post FROM Post post ORDER BY publishedAt DESC")
+    List<Post> findAllOrderByPublishedAtDesc();
+
+    @Query("SELECT post FROM Post post ORDER BY publishedAt ASC")
+    List<Post> findAllOrderByPublishedAtAsc();
 
     @Query("SELECT DISTINCT post.author FROM Post post")
     List<String> findDistinctAuthor();
@@ -33,6 +34,11 @@ public interface PostRepository extends JpaRepository<Post,Integer> {
     @Query(value = "SELECT post FROM Post post WHERE  post.author LIKE ?1")
     Page<Post> findByAuthor(String author, Pageable pageable);
 
-    @Query("select post from Post post where post.createdAt >= ?1")
-    Page<Post> findAllWithCreatedAtBefore(Date createdDate,Pageable pageable );
+    @Query("select post from Post post where post.publishedAt >= ?1")
+    List<Post> findAllWithPublishedAtBefore(Date publishedDate);
+
+    @Query("select post from Post post where post.publishedAt LIKE ?1")
+    Page<Post> findAllWithPublishedAt(Date publishedDate, Pageable pageable);
+
+    List<Post> findByAuthor(String author);
 }

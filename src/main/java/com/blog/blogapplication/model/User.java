@@ -1,10 +1,12 @@
 package com.blog.blogapplication.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
@@ -12,6 +14,9 @@ public class User {
     @Column(name="email", unique=true)
     String email;
     String password;
+    String role;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    List<Post> posts;
 
     public int getId() {
         return id;
@@ -43,5 +48,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

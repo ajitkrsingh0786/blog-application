@@ -1,23 +1,85 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>View Post</title>
-    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
 </head>
 <body>
-<h1>View</h1>
-<container class="view-container"  th:action="@{/updatePost}" th:object="${post}">
-    <h2 th:text="${post.title}"></h2>
-    <p >
-        <span th:text="${post.author}" ></span>,
-        <span th:text="${post.createdAt}"></span>
-    </p><br><br>
-    <p th:text="${post.content}"></p>
-    <a th:href="@{/showFormForUpdate/{id}(id=${post.id})}" >Update</a>
-    <a th:href="@{/deletePost/{id}(id=${post.id})}" >Delete</a>
-    <a th:href="@{/addCommentForm/{postId}(postId=${post.id})}" >Add Comment</a>
-    <a th:href="@{/viewComments/{postId}(postId=${post.id})}" >View All Comments</a>
-</container>
+<div class="view-container">
+    <div sec:authorize="hasRole('ADMIN')">
+        <p>Admin</p>
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        <div sec:authorize="!hasRole('ADMIN')">
+            <p>Author</p>
+        </div>
+    </div>
+<div>
+<h1 th:text="${post.title}"></h1>
+<p>
+    <span th:text="${post.author}"></span>,
+    <span th:text="${post.createdAt}"></span>
+</p><br><br>
+<div>
+    <p th:text="${post.content}" id="content1"></p>
+</div>
+<div sec:authorize="isAuthenticated()">
+    <div th:if="${post.user != null}">
+        <div th:if="${#authentication.getPrincipal().getUsername() == post.user.getName()}">
+            <a th:href="@{/showFormForUpdate/{id}(id=${post.id})}">Update post</a>
+            <a th:href="@{/deletePost/{id}(id=${post.id})}">Delete post</a>
+        </div>
+    </div>
+</div>
+<div sec:authorize="hasRole('ADMIN')">
+
+    <a th:href="@{/showFormForUpdate/{id}(id=${post.id})}">Update post</a>
+    <a th:href="@{/deletePost/{id}(id=${post.id})}">Delete post</a>
+
+</div>
+</div>
+<div>
+    <hr>
+    <a th:href="@{/addCommentForm/{postId}(postId=${post.id})}">Add Comment</a>
+    <h2>All Comments...</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Comment</th>
+        </tr>
+        <tr th:each="comment : ${comments}">
+            <td th:text="${comment.name}"></td>
+            <td th:text="${comment.comment}"></td>
+            <div sec:authorize="isAuthenticated()">
+                <div th:if="${post.user != null}">
+                    <div th:if="${#authentication.getPrincipal().getUsername() == post.user.getName()}">
+                        <td><a th:href="@{/deleteComment/{id}(id=${comment.id})}">Delete Comment</a></td>
+                        <td>
+                            <a th:href="@{/updateComment/{commentId}/{postId}(commentId=${comment.id},postId=${post.id})}">Update
+                                Comment</a></td>
+                    </div>
+                </div>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <div th:if="${post.user != null}">
+                    <div th:if="${#authentication.getPrincipal().getUsername() == post.user.getName()}">
+                        <td><a th:href="@{/deleteComment/{id}(id=${comment.id})}">Delete Comment</a></td>
+                        <td>
+                            <a th:href="@{/updateComment/{commentId}/{postId}(commentId=${comment.id},postId=${post.id})}">Update
+                                Comment</a></td>
+                    </div>
+                </div>
+            </div>
+            <div sec:authorize="hasRole('ADMIN')">
+                <td><a th:href="@{/deleteComment/{id}(id=${comment.id})}">Delete Comment</a></td>
+                <td>
+                    <a th:href="@{/updateComment/{commentId}/{postId}(commentId=${comment.id},postId=${post.id})}">Update
+                        Comment</a></td>
+            </div>
+        </tr>
+    </table>
+</div>
+</div>
 </body>
 </html>

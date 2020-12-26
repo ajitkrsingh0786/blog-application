@@ -8,25 +8,27 @@ import java.util.List;
 @Table(name = "posts")
 public class Post {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
     String title;
     String excerpt;
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     String content;
     String author;
-    @Column(name="published_at")
+    @Column(name = "published_at")
     Date publishedAt;
-    @Column(name="is_published")
+    @Column(name = "is_published")
     boolean isPublished;
-    @Column(name="created_at")
+    @Column(name = "created_at")
     Date createdAt;
-    @Column(name="updated_at")
+    @Column(name = "updated_at")
     Date updatedAt;
-    @OneToMany(mappedBy="post", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     List<Tag> tags;
+    @ManyToOne
+    User user;
 
     public int getId() {
         return id;
@@ -117,18 +119,16 @@ public class Post {
         this.tags = tags;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", excerpt='" + excerpt + '\'' +
-                ", content='" + content + '\'' +
-                ", author='" + author + '\'' +
-                ", publishedAt=" + publishedAt +
-                ", isPublished=" + isPublished +
-                ", created_at=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+        return "Post{" + "id=" + id + ", title='" + title + '\'' + ", excerpt='" + excerpt + '\'' + ", content='" + content + '\'' + ", author='" + author + '\'' + ", publishedAt=" + publishedAt + ", isPublished=" + isPublished + ", created_at=" + createdAt + ", updatedAt=" + updatedAt + '}';
     }
 }

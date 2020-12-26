@@ -13,27 +13,22 @@
                 <h1 class="a1">My Blog Application</h1><br>
                 <a th:href="@{/writePost}">Write New Post</a>
                 <a th:href="@{/createTagForm}">Create Tag</a>
+                <a th:href="@{/}">Refresh</a>
+                <div>
+                <a th:href="@{/showRegistrationForm}">Register</a>
+                <a th:href="@{/login}">Login</a>
+                    <a th:href="@{/logout}">Logout</a>
+                </div>
             </div>
             <div class="a2">
                 <form action="#" th:action="@{/searchPosts/1}">
-                    <input type="search" name="keyword">
+                    <input type="search" name="keyword" placeholder="Search">
                     <input type="submit">
                 </form>
                 <br>
 
-                <form action="#" th:action="@{/filterPost}">
-                    <select name="filter">
-                        <option disabled="" selected="">Filter</option>
-                        <option value="author">By author
-                        </option>
-                        <option value="byDate">By published date</option>
-                        <option value="tags">By tags</option>
-                    </select>
-                    <input type="submit">
-                </form>
-
                 <form action="#" th:action="@{/sortByDate/1}">
-                    <select name="sortBy">
+                    <select name="keyword">
                         <option disabled="" selected>Sort</option>
                         <option value="asc">By published date asc</option>
                         <option value="desc">By published date desc</option>

@@ -11,6 +11,7 @@ public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
+    @Column(name="name", unique=true)
     String name;
     @Column(name = "created_at")
     Date createdAt;
