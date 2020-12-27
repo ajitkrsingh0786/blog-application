@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
-@Controller
+@RestController
 public class PostController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class PostController {
     @Autowired
     UserRepository userRepository;
 
-    @RequestMapping("/")
+  /*  @RequestMapping("/")
     public String allPosts(Model model) {
         return findPaginated(1, model);
     }
@@ -113,5 +113,13 @@ public class PostController {
         model.addAttribute("tags", tagService.getAllTag());
         model.addAttribute("authorsName", postService.getDistinctAuthor());
         return "html/index";
+    } */
+
+    @RequestMapping("/posts")
+    public List<Post> getAllPosts(){
+        return postService.getAllPost();
     }
+
+
+
 }
