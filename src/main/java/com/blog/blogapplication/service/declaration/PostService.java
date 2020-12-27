@@ -9,6 +9,7 @@ import java.util.List;
 public interface PostService {
 
     void savePost(Post post, String authorName);
+    void addPost(Post post);
 
     List<Post> getAllPost();
 

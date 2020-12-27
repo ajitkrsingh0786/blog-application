@@ -1,5 +1,7 @@
 package com.blog.blogapplication.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -24,10 +26,13 @@ public class Post {
     @Column(name = "updated_at")
     Date updatedAt;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Comment> comments;
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JsonIgnore
     List<Tag> tags;
     @ManyToOne
+    @JsonIgnore
     User user;
 
     public int getId() {

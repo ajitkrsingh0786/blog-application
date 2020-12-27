@@ -47,6 +47,12 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
+    public void addPost(Post post) {
+        System.out.println("Ajit kumar Sing");
+        this.postRepository.save(post);
+    }
+
+    @Override
     public List<Post> getAllPost() {
         List<Post> posts = postRepository.findAll();
         List<Integer> postsId = new ArrayList<>();

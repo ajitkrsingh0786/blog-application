@@ -116,10 +116,28 @@ public class PostController {
     } */
 
     @RequestMapping("/posts")
-    public List<Post> getAllPosts(){
+    public List<Post> getAllPosts() {
         return postService.getAllPost();
     }
 
+    @RequestMapping("/posts/{id}")
+    public Post getPost(@PathVariable int id) {
+        return postService.getPostById(id);
+    }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/posts")
+    public void addPost( @RequestBody Post post) {
+        postService.addPost(post);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/posts")
+    public void updatePost( @RequestBody Post post) {
+        postService.addPost(post);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/posts/{id}")
+    public void deletePost(@PathVariable int id) {
+        postService.deletePostById(id);
+    }
 
 }
