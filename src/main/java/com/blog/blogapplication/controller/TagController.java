@@ -1,21 +1,19 @@
 package com.blog.blogapplication.controller;
 
+import com.blog.blogapplication.model.Post;
 import com.blog.blogapplication.model.Tag;
 import com.blog.blogapplication.service.declaration.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class TagController {
 
     @Autowired
     private TagService tagService;
-
+/*
     @RequestMapping("/createTagForm")
     public String createTagForm(Model model) {
         Tag tag = new Tag();
@@ -36,4 +34,8 @@ public class TagController {
         tagService.deleteTagById(id);
         return "redirect:/";
     }
+
+ */
+
+
 }

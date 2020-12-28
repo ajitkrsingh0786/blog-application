@@ -126,12 +126,12 @@ public class PostController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/posts")
-    public void addPost( @RequestBody Post post) {
+    public void addPost(@RequestBody Post post) {
         postService.addPost(post);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/posts")
-    public void updatePost( @RequestBody Post post) {
+    public void updatePost(@RequestBody Post post) {
         postService.addPost(post);
     }
 
@@ -139,5 +139,11 @@ public class PostController {
     public void deletePost(@PathVariable int id) {
         postService.deletePostById(id);
     }
-
+    
+    @RequestMapping("/search/{pageNo}")
+    public List<Post> searchPosts(@PathVariable(value = "pageNo") int pageNo, @Param("keyword") String keyword) {
+        List<Post> posts = postService.searchPosts(keyword);
+        PagedListHolder page = Resources.getPageableList(posts, pageNo, Resources.PAGE_SIZE);
+        return page.getPageList();
+    }
 }

@@ -7,12 +7,11 @@ import com.blog.blogapplication.service.declaration.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
 public class CommentController {
 
     @Autowired
@@ -20,6 +19,7 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    /*
     @RequestMapping("/addCommentForm/{postId}")
     public String addCommentForm(@PathVariable(value = "postId") int postId, Model model) {
         Comment comment = new Comment();
@@ -60,5 +60,31 @@ public class CommentController {
         model.addAttribute("commentObj", commentService.getCommentById(commentId));
         model.addAttribute("postId", postId);
         return "html/addComment";
+    }
+     */
+    @RequestMapping("/comments/{postId}")
+    public List<Comment> getAllComments(@PathVariable int postId) {
+        return postService.getPostById(postId).getComments();
+    }
+
+    @RequestMapping("/comments/{id}")
+    public Comment getComment(@PathVariable int id) {
+        return commentService.getCommentById(id);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/comments/{postId}")
+    public void addComment(@PathVariable int postId, @RequestBody Comment comment) {
+        comment.setPost(postService.getPostById(postId));
+        commentService.saveComment(comment);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/comments")
+    public void updateComment( @RequestBody Comment comment) {
+        commentService.saveComment(comment);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/comments/{id}")
+    public void deleteComment(@PathVariable int id) {
+        commentService.deleteCommentById(id);
     }
 }
