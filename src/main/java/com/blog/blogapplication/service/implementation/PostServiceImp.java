@@ -48,7 +48,6 @@ public class PostServiceImp implements PostService {
 
     @Override
     public void addPost(Post post) {
-        System.out.println("Ajit kumar Sing");
         this.postRepository.save(post);
     }
 

@@ -3,28 +3,37 @@ package com.blog.blogapplication.controller;
 import com.blog.blogapplication.model.User;
 import com.blog.blogapplication.service.declaration.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
-@Controller
+@RestController
 public class UserController {
     @Autowired
     UserService userService;
 
-    @RequestMapping("/showRegistrationForm")
-    public String showRegistrationForm(Model model){
-        User user = new User();
-        model.addAttribute("user",user);
-        return "html/registrationForm";
+    @RequestMapping("/users")
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 
-    @PostMapping("/registerUser")
-    public String registerUser(@ModelAttribute("user") User user){
-           userService.registerUser(user);
-        return  "redirect:/";
+    @RequestMapping("/users/{id}")
+    public User getUser(@PathVariable int id) {
+        return userService.getTagById(id);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/users")
+    public void addUser(@RequestBody User user) {
+        userService.saveUser(user);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/users")
+    public void updateUser(@RequestBody User user) {
+       userService.saveUser(user);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/users/{id}")
+    public void deleteTag(@PathVariable int id) {
+         userService.deleteUserById(id);
     }
 }

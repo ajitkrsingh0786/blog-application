@@ -1,12 +1,9 @@
 package com.blog.blogapplication.controller;
 
 import com.blog.blogapplication.model.Comment;
-import com.blog.blogapplication.model.Post;
 import com.blog.blogapplication.service.declaration.CommentService;
 import com.blog.blogapplication.service.declaration.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -67,7 +64,7 @@ public class CommentController {
         return postService.getPostById(postId).getComments();
     }
 
-    @RequestMapping("/comments/{id}")
+    @RequestMapping("/comment/{id}")
     public Comment getComment(@PathVariable int id) {
         return commentService.getCommentById(id);
     }
@@ -78,8 +75,9 @@ public class CommentController {
         commentService.saveComment(comment);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/comments")
-    public void updateComment( @RequestBody Comment comment) {
+    @RequestMapping(method = RequestMethod.PUT, value = "/comments/{postId}")
+    public void updateComment( @PathVariable int postId, @RequestBody Comment comment) {
+        comment.setPost(postService.getPostById(postId));
         commentService.saveComment(comment);
     }
 

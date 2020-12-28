@@ -22,5 +22,4 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
 
     @Query("SELECT DISTINCT tag.posts FROM Tag tag WHERE tag.name=?1")
     List<Post> findAllPostsByName(String name);
-
 }

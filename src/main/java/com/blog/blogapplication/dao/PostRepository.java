@@ -37,8 +37,5 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query("select post from Post post where post.publishedAt >= ?1")
     List<Post> findAllWithPublishedAtBefore(Date publishedDate);
 
-    @Query("select post from Post post where post.publishedAt LIKE ?1")
-    Page<Post> findAllWithPublishedAt(Date publishedDate, Pageable pageable);
-
     List<Post> findByAuthor(String author);
 }

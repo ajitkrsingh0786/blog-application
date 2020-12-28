@@ -2,19 +2,14 @@ package com.blog.blogapplication.controller;
 
 import com.blog.blogapplication.dao.UserRepository;
 import com.blog.blogapplication.model.Post;
-import com.blog.blogapplication.model.Tag;
 import com.blog.blogapplication.service.declaration.CommentService;
 import com.blog.blogapplication.service.declaration.PostService;
 import com.blog.blogapplication.service.declaration.TagService;
 import com.blog.blogapplication.service.implementation.Resources;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -115,18 +110,27 @@ public class PostController {
         return "html/index";
     } */
 
-    @RequestMapping("/posts")
-    public List<Post> getAllPosts() {
-        return postService.getAllPost();
+
+    @RequestMapping("/")
+    public List allPosts() {
+        return getAllPosts(1);
     }
 
-    @RequestMapping("/posts/{id}")
+    @RequestMapping("/posts/{pageNo}")
+    public List getAllPosts(@PathVariable(value = "pageNo") int pageNo) {
+        List<Post> posts = postService.getAllPost();
+        Resources.getPageableList(posts, pageNo, Resources.PAGE_SIZE);
+        return  Resources.getPageableList(posts, pageNo, Resources.PAGE_SIZE).getPageList();
+    }
+
+    @RequestMapping("/post/{id}")
     public Post getPost(@PathVariable int id) {
         return postService.getPostById(id);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/posts")
-    public void addPost(@RequestBody Post post) {
+    public void addPost(@RequestBody Post post,@Param("selectedTag") String selectedTag) {
+        post.setTags(tagService.getSelectedTags(selectedTag));
         postService.addPost(post);
     }
 
@@ -139,11 +143,17 @@ public class PostController {
     public void deletePost(@PathVariable int id) {
         postService.deletePostById(id);
     }
-    
+
     @RequestMapping("/search/{pageNo}")
-    public List<Post> searchPosts(@PathVariable(value = "pageNo") int pageNo, @Param("keyword") String keyword) {
+    public List searchPosts(@PathVariable(value = "pageNo") int pageNo, @Param("keyword") String keyword) {
         List<Post> posts = postService.searchPosts(keyword);
-        PagedListHolder page = Resources.getPageableList(posts, pageNo, Resources.PAGE_SIZE);
-        return page.getPageList();
+        return Resources.getPageableList(posts, pageNo, Resources.PAGE_SIZE).getPageList();
+    }
+
+    @RequestMapping("/sort/{pageNo}")
+    public List sort(@PathVariable(value = "pageNo") int pageNo, @RequestParam("keyword") String keyword) {
+        List<Post> posts = postService.getAllPostOrderByPublishedAt(keyword);
+        Resources.getPageableList(posts, pageNo, Resources.PAGE_SIZE);
+        return Resources.getPageableList(posts, pageNo, Resources.PAGE_SIZE).getPageList();
     }
 }

@@ -71,12 +71,9 @@ public class TagServiceImp implements TagService {
     public List<Post> getAllPostsByName(String name) {
         List<Post> newPostList = new ArrayList<>();
         List<Integer> newPostsId = new ArrayList<>();
-
-        String tagsArray[] = name.split(",");
-
+        String[] tagsArray = name.split(",");
 
         for(String tagName: tagsArray){
-
             List<Post> postList = tagRepository.findAllPostsByName(tagName);
             System.out.println("Author : " +postList.size());
             for(Post post : postList){
@@ -86,11 +83,7 @@ public class TagServiceImp implements TagService {
                 }
             }
         }
-
         Resources.resourcePostId = newPostsId;
-
-        System.out.println("new "+newPostList.size());
         return  newPostList;
-
     }
 }
